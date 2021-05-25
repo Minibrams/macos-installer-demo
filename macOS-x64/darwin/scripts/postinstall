@@ -1,0 +1,38 @@
+#!/bin/bash
+
+#Custermize this for your application
+APPLICATION_FILE_PATH=emily
+
+#Parameters
+PRODUCT_HOME=/Library/emily/__VERSION__
+
+echo "Post installation process started"
+
+# Generate config.json
+echo '{
+  "installationId": "47a383948afecd172869841dea4c3ad5",
+  "homePath": "/Library/emily/__VERSION__",
+  "execPath": "/usr/local/bin/emily",
+  "logPath": "/Library/emily/__VERSION__/emily.log",
+  "eventPath": "/Library/emily/__VERSION__/.events.log",
+  "sendUsageData": true,
+  "numStartups": 5,
+  "emilyProjects": [],
+  "timeOfLastUpdateCheck": 1621806766118,
+  "version": "0.2.3"
+}' >> ${PRODUCT_HOME}/config.json
+
+#Change permissions in home directory
+echo "Change permissions in product home"
+cd ${PRODUCT_HOME}
+
+chmod -R 755 .  # Read and execute for everyone, write only by the owner
+chmod 766 config.json # Read, write for everyone, no execution
+
+[ -d /usr/local/bin ] || mkdir /usr/local/bin
+
+#Add application shortcut to /usr/local/bin
+rm -f /usr/local/bin/emily
+ln -s ${PRODUCT_HOME}/${APPLICATION_FILE_PATH} /usr/local/bin/emily
+
+echo "Post installation process finished"

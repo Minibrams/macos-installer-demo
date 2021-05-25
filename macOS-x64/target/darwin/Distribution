@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<installer-script minSpecVersion="1.000000">
+    <title>emily</title>
+    <background mime-type="image/png" file="banner.png" scaling="proportional"/>
+    <background-darkAqua mime-type="image/png" file="banner.png" scaling="proportional"/>
+    <welcome file="welcome.html" mime-type="text/html" />
+    <conclusion file="conclusion.html" mime-type="text/html" />
+    <license file="LICENSE.txt"/>
+    <options customize="never" allow-external-scripts="no"/>
+    <domains enable_localSystem="true" />
+    <installation-check script="installCheck();"/>
+    <script>
+function installCheck() {
+    if(!(system.compareVersions(system.version.ProductVersion, '10.6.0') >= 0)) {
+        my.result.title = 'Unable to install';
+        my.result.message = 'emily requires Mac OS X 10.6 or later.';
+        my.result.type = 'Fatal';
+        return false;
+    }
+    if(system.files.fileExistsAtPath('/Library/emily/0.2.3/')) {
+        my.result.title = 'Previous Installation Detected';
+        my.result.message = 'A previous installation of emily exists at /Library/emily/0.2.3/. This installer will remove the previous installation prior to installing. Please back up any data before proceeding.';
+        my.result.type = 'Warning';
+        return false;
+    }
+    return true;
+}
+    </script>
+    <choices-outline>
+        <line choice="emily"/>
+    </choices-outline>
+    <choice id="emily" title="emily">
+        <pkg-ref id="emily.pkg"/>
+    </choice>
+    <pkg-ref id="emily.pkg" auth="Root">emily.pkg</pkg-ref>
+</installer-script>
