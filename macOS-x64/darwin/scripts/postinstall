@@ -26,8 +26,8 @@ echo '{
 echo "Change permissions in product home"
 cd ${PRODUCT_HOME}
 
-chmod -R 755 .  # Read and execute for everyone, write only by the owner
-chmod 766 config.json # Read, write for everyone, no execution
+chmod -R 777 ${PRODUCT_HOME}  # Read, write, execute for everyone
+chmod 755 emily # Read and execute for everyone, write only by the owner
 
 [ -d /usr/local/bin ] || mkdir /usr/local/bin
 
